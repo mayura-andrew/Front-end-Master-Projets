@@ -99,7 +99,7 @@
         const choices = [correctAnswer];
         while(choices.length < n) {
             let candidate = getRandomElement(array);
-            if (!choices.includes(candidate)) {
+            if (choices.indexOf(candidate) < 0) {
                 choices.push(candidate);
             }
         }
