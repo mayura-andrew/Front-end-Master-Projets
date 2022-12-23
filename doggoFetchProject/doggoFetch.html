@@ -96,9 +96,15 @@
     function getMultipleChoices(n, correctAnswer, array) {
         // Use a while loop and the getRandomElement() function
         // Make sure there are no duplicates in the array
-
+        const choices = [correctAnswer];
+        while(choices.length < n) {
+            let candidate = getRandomElement(array);
+            if (!choices.includes(candidate)) {
+                choices.push(candidate);
+            }
+        }
+        return shuffleArray(choices);
     }
-
 
     // TODO 2
     // Given a URL such as "https://images.dog.ceo/breeds/poodle-standard/n02113799_2280.jpg"
@@ -106,7 +112,10 @@
     function getBreedFromURL(url) {
         // The string method .split(char) may come in handy
         // Try to use destructuring as much as you can
-
+        const [,path] = url.split("/breeds/");
+        const [breedID] = path.split("/");
+        const [breed, subtype] = breedID.split("-");
+        return [subtype, breed].join(" ");
     }
 
 
@@ -116,7 +125,9 @@
     // then parse the response as a JSON object,
     // finally return the "message" property of its body
     async function fetchMessage(url) {
-
+        const response = await fetch(url);
+        const {message} = await response.json();
+        return message;
     }
 
 
@@ -141,9 +152,13 @@
         // Create a button element whose name, value, and textContent properties are the value of that choice,
         // attach a "click" event listener with the buttonHandler function,
         // and append the button as a child of the options element
-
+        choicesArray.map(choice => {
+            let button = document.createElement("button");
+            button.value = button.name = button.textContent = choice;
+            button.addEventListener("click", buttonHandler);
+            options.appendChild(button);
+        })
     }
-
 
     // Function to add the quiz content to the page
     function renderQuiz(imgUrl, correctAnswer, choices) {
@@ -174,7 +189,8 @@
     // Asynchronously call the loadQuizData() function,
     // Then call renderQuiz() with the returned imageUrl, correctAnswer, and choices
 
-
+    const [imgUrl, correctAnswer, choices] = await loadQuizData();
+    renderQuiz((imgUrl, correctAnswer, choices));
 
 
 </script>
