@@ -97,14 +97,15 @@
         // Use a while loop and the getRandomElement() function
         // Make sure there are no duplicates in the array
         const choices = [correctAnswer];
-        while(choices.length < n) {
+        while (choices.length < n) {
             let candidate = getRandomElement(array);
-            if (choices.indexOf(candidate) < 0) {
-                choices.push(candidate);
+            if (choices.indexOf(candidate) < 0) { // check if this is already in the array
+                choices.push(candidate); // if not, add it
             }
         }
         return shuffleArray(choices);
     }
+
 
     // TODO 2
     // Given a URL such as "https://images.dog.ceo/breeds/poodle-standard/n02113799_2280.jpg"
@@ -125,9 +126,9 @@
     // then parse the response as a JSON object,
     // finally return the "message" property of its body
     async function fetchMessage(url) {
-        const response = await fetch(url);
-        const {message} = await response.json();
-        return message;
+        const response = await fetch(url);  // Fetch the resource at the given URL
+        const {message} = await response.json(); // Parse the response as JSON & remember its 'message' value
+        return message; // Return the message
     }
 
 
@@ -160,6 +161,7 @@
         })
     }
 
+
     // Function to add the quiz content to the page
     function renderQuiz(imgUrl, correctAnswer, choices) {
         const image = document.createElement("img");
@@ -188,9 +190,9 @@
     // TODO 5
     // Asynchronously call the loadQuizData() function,
     // Then call renderQuiz() with the returned imageUrl, correctAnswer, and choices
+    const [imageUrl, correctAnswer, choices] = await loadQuizData();
+    renderQuiz(imageUrl, correctAnswer, choices);
 
-    const [imgUrl, correctAnswer, choices] = await loadQuizData();
-    renderQuiz((imgUrl, correctAnswer, choices));
 
 
 </script>
